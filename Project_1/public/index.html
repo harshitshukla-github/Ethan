@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141d18" />
+    <title>Side A — Spotify Music Player</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a href="/" class="brand" aria-label="Side A home"
+          ><span class="brand-mark" aria-hidden="true">a</span> SIDE A<span
+            class="brand-caption"
+            >A LITTLE ROOM FOR MUSIC</span
+          ></a
+        >
+        <div class="account">
+          <span id="user-name"></span
+          ><button id="logout" class="text-button" hidden>Sign out</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div>
+            <p class="eyebrow">YOUR EVERYDAY LISTENING SPACE</p>
+            <h1>Find your<br /><em>next favourite.</em></h1>
+            <p class="intro">
+              A song for the commute. An album for the evening.<br />Your music,
+              a little closer.
+            </p>
+          </div>
+          <div class="record-art" aria-hidden="true">
+            <div class="sleeve">
+              <span>SIDE A / 01</span>
+              <div class="record">
+                <div class="record-label">
+                  <b>a</b><small>PRESS PLAY</small>
+                </div>
+              </div>
+              <span class="sleeve-footer">SOMETHING GOOD IS ON.</span>
+            </div>
+          </div>
+        </section>
+
+        <div id="message" class="message" role="status" aria-live="polite">
+          Sign in to start listening.
+        </div>
+
+        <section id="login-panel" class="login-panel">
+          <div>
+            <p class="eyebrow">MAKE YOURSELF AT HOME</p>
+            <h2>Your Spotify. Your soundtrack.</h2>
+            <p>
+              Search for a song and play it here with your Spotify Premium
+              account.
+            </p>
+          </div>
+          <a class="button primary" href="/auth/login"
+            >Connect with Spotify <span aria-hidden="true">↗</span></a
+          >
+        </section>
+
+        <section id="app-panel" class="workspace" hidden>
+          <div class="library">
+            <form id="search-form" role="search">
+              <label for="query">What would you like to hear?</label>
+              <div class="search-row">
+                <input
+                  id="query"
+                  name="query"
+                  type="search"
+                  placeholder="Search songs or artists…"
+                  maxlength="200"
+                  required
+                  autocomplete="off"
+                /><button
+                  id="search-button"
+                  class="button primary"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+            <div class="results-heading">
+              <h2 id="results-title">Your next listen</h2>
+              <span id="results-count">0 tracks</span>
+            </div>
+            <p id="empty-state" class="empty-state">
+              Start with a song you love.<br /><span
+                >Your search results will appear here.</span
+              >
+            </p>
+            <ol id="results" class="results" aria-label="Search results"></ol>
+          </div>
+
+          <aside class="player-card" aria-label="Music player">
+            <div class="player-label">
+              <span class="eyebrow">NOW PLAYING</span
+              ><span id="device-status" class="device-status">Connecting…</span>
+            </div>
+            <div class="cover-wrap">
+              <div
+                id="cover-placeholder"
+                class="cover-placeholder"
+                aria-hidden="true"
+              >
+                a
+              </div>
+              <img id="cover" alt="Current album artwork" hidden />
+            </div>
+            <h2 id="track-name">Make room for music.</h2>
+            <p id="track-artists">Choose a song from your search.</p>
+            <a
+              id="track-link"
+              class="spotify-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden
+              >Open on Spotify ↗</a
+            >
+            <div class="timeline">
+              <label for="seek" class="sr-only">Track position</label
+              ><input
+                id="seek"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                disabled
+              />
+              <div>
+                <span id="elapsed">0:00</span><span id="duration">0:00</span>
+              </div>
+            </div>
+            <div class="transport">
+              <button
+                id="previous"
+                class="control"
+                aria-label="Previous track"
+                title="Previous track"
+                disabled
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M5 4h3v16H5zM19 4v16L8 12z" />
+                </svg></button
+              ><button
+                id="toggle"
+                class="control play-control"
+                aria-label="Play"
+                disabled
+              >
+                ▶</button
+              ><button
+                id="next"
+                class="control"
+                aria-label="Next track"
+                title="Next track"
+                disabled
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M16 4h3v16h-3zM5 4l11 8-11 8z" />
+                </svg>
+              </button>
+            </div>
+            <div class="volume-row">
+              <label for="volume">Volume</label
+              ><input
+                id="volume"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                disabled
+              />
+            </div>
+            <button id="connect-player" class="button secondary" disabled>
+              Preparing player…
+            </button>
+            <p class="player-hint">
+              Choose this browser, then press play on a song.
+            </p>
+          </aside>
+        </section>
+      </main>
+      <footer>
+        <span
+          >Music from
+          <a
+            href="https://open.spotify.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Spotify ↗</a
+          ></span
+        ><span>PERSONAL LISTENING · PREMIUM REQUIRED</span>
+      </footer>
+    </div>
+  </body>
+</html>

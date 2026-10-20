@@ -1,0 +1,18 @@
+# Dependencies (reinstall with `npm install` in each project)
+node_modules/
+
+# Secrets - never commit. Share a .env.example instead.
+.env
+.env.*
+!.env.example
+
+# Logs and test output
+npm-debug.log*
+*.log
+coverage/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

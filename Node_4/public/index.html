@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HTML + Express</title>
+</head>
+<body>
+    <h1>Connect HTML with Express</h1>
+
+    <form id="greetForm">
+        <label for="name">Your name:</label>
+        <input id="name" type="text" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        const form = document.getElementById("greetForm");
+        const nameInput = document.getElementById("name");
+        const result = document.getElementById("result");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Keep the page from reloading
+
+            try {
+                const response = await fetch("/api/greet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: nameInput.value
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message);
+                }
+
+                result.textContent = data.message;
+            } catch (error) {
+                result.textContent = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

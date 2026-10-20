@@ -1,0 +1,42 @@
+# Optional: open in VS Code with the REST Client extension.
+# Start the server with npm start, then send these requests in order.
+@baseUrl = http://localhost:3000
+
+### API overview
+GET {{baseUrl}}/
+
+### Health check
+GET {{baseUrl}}/health
+
+### List tasks
+GET {{baseUrl}}/tasks
+
+### Read task 1
+GET {{baseUrl}}/tasks/1
+
+### Create a task (ID 3 on a freshly started server)
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+
+{
+  "title": "Learn Express"
+}
+
+### Update task 3 (replace this ID if your create response had another ID)
+PATCH {{baseUrl}}/tasks/3
+Content-Type: application/json
+
+{
+  "title": "Practice Express"
+}
+
+### Delete task 3
+DELETE {{baseUrl}}/tasks/3
+
+### Validation example: returns 400
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+
+{
+  "title": ""
+}

@@ -1,0 +1,22 @@
+{
+  "name": "node-mysql-express",
+  "version": "1.0.0",
+  "description": "Simple Node.js + MySQL connection served over an Express HTTP server",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "server": "node server.js",
+    "start": "node --env-file=.env server.js",
+    "dev": "nodemon --env-file=.env --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.24.5"
+  }
+}
