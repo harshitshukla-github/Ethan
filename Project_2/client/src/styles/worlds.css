@@ -1,0 +1,300 @@
+/*
+ * Planets drawn with CSS gradients. Markup comes from <PlanetOrb>:
+ *
+ *   .orb.orb--saturn
+ *     .orb__ring--back    (ringed worlds only)
+ *     .orb__sphere        ::before = surface texture, ::after = sunlight and shadow
+ *     .orb__ring--front   (ringed worlds only)
+ *
+ * Each world sets --texture (its surface) and --glow. Everything scales with --size.
+ */
+
+.orb {
+  --size: 120px;
+  position: relative;
+  display: block;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  transition: transform 0.25s;
+}
+
+.orb__sphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 0 calc(var(--size) * 0.35) var(--glow, rgba(255, 255, 255, 0.12));
+}
+
+/* Slightly oversized so the blur that softens the texture never reveals an edge. */
+.orb__sphere::before {
+  content: '';
+  position: absolute;
+  inset: -4%;
+  background: var(--texture);
+  filter: blur(calc(var(--size) * var(--blur, 0.012)));
+}
+
+/* Lighting common to every world: sunlight from the upper left, night toward the lower right. */
+.orb__sphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.3), transparent 42%),
+    radial-gradient(circle at 74% 78%, transparent 26%, rgba(2, 3, 10, 0.85) 80%);
+}
+
+/* Rings: a flattened ellipse split into a half behind the sphere and a half in front of it. */
+.orb__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--size) * var(--ring-width, 2.3));
+  height: calc(var(--size) * var(--ring-height, 0.72));
+  border-radius: 50%;
+  background: var(--ring);
+  transform: translate(-50%, -50%) rotate(var(--ring-tilt, -18deg));
+  pointer-events: none;
+}
+
+.orb__ring--back {
+  z-index: 0;
+}
+
+.orb__ring--front {
+  z-index: 2;
+  clip-path: inset(50% 0 0 0);
+}
+
+.orb--mercury {
+  --glow: rgba(190, 180, 170, 0.16);
+  --blur: 0.006;
+  --texture:
+    radial-gradient(circle at 62% 36%, rgba(58, 53, 49, 0.55) 0 6%, transparent 7.5%),
+    radial-gradient(circle at 34% 60%, rgba(58, 53, 49, 0.5) 0 9%, transparent 10.5%),
+    radial-gradient(circle at 70% 68%, rgba(58, 53, 49, 0.45) 0 5%, transparent 6.5%),
+    radial-gradient(circle at 44% 26%, rgba(58, 53, 49, 0.4) 0 4%, transparent 5.5%),
+    radial-gradient(circle at 22% 38%, rgba(58, 53, 49, 0.35) 0 3%, transparent 4.5%),
+    linear-gradient(135deg, #beb6ac, #7f7870);
+}
+
+.orb--venus {
+  --glow: rgba(240, 190, 110, 0.25);
+  --blur: 0.03;
+  --texture:
+    linear-gradient(
+      168deg,
+      rgba(255, 250, 230, 0.4) 0 14%,
+      transparent 14% 30%,
+      rgba(170, 100, 30, 0.3) 30% 44%,
+      transparent 44% 58%,
+      rgba(255, 244, 210, 0.35) 58% 70%,
+      transparent 70% 84%,
+      rgba(150, 85, 25, 0.3) 84%
+    ),
+    linear-gradient(135deg, #f5dfab, #d8a455 60%, #a96a2b);
+}
+
+.orb--earth {
+  --glow: rgba(90, 160, 255, 0.35);
+  --blur: 0.014;
+  --texture:
+    radial-gradient(ellipse 34% 13% at 30% 24%, rgba(255, 255, 255, 0.85), transparent 72%),
+    radial-gradient(ellipse 30% 9% at 68% 60%, rgba(255, 255, 255, 0.75), transparent 72%),
+    radial-gradient(ellipse 40% 9% at 50% 3%, rgba(255, 255, 255, 0.9), transparent 75%),
+    radial-gradient(ellipse 40% 9% at 50% 97%, rgba(255, 255, 255, 0.9), transparent 75%),
+    radial-gradient(ellipse 22% 26% at 36% 44%, #4c9a52, transparent 72%),
+    radial-gradient(ellipse 14% 20% at 44% 72%, #5aa35a, transparent 72%),
+    radial-gradient(ellipse 24% 18% at 72% 34%, #6a9a4a, transparent 72%),
+    radial-gradient(ellipse 12% 10% at 78% 74%, #4c9a52, transparent 72%),
+    linear-gradient(160deg, #4092e3, #1c56b8 55%, #0d2f78);
+}
+
+.orb--mars {
+  --glow: rgba(230, 110, 70, 0.28);
+  --blur: 0.014;
+  --texture:
+    radial-gradient(ellipse 30% 8% at 50% 3%, rgba(255, 250, 245, 0.9), transparent 75%),
+    radial-gradient(ellipse 34% 16% at 40% 46%, rgba(110, 40, 20, 0.55), transparent 72%),
+    radial-gradient(ellipse 20% 12% at 70% 62%, rgba(110, 40, 20, 0.5), transparent 72%),
+    radial-gradient(ellipse 16% 10% at 28% 72%, rgba(240, 170, 120, 0.5), transparent 72%),
+    linear-gradient(150deg, #e68f5e, #c0562f 55%, #7c2c17);
+}
+
+.orb--jupiter {
+  --glow: rgba(225, 180, 130, 0.25);
+  --blur: 0.016;
+  --texture:
+    radial-gradient(ellipse 13% 8% at 66% 63%, #c0502f 0 55%, transparent 78%),
+    linear-gradient(
+      178deg,
+      #b08a66 0 8%,
+      #e6d2b3 8% 18%,
+      #b9764a 18% 27%,
+      #ecdcc0 27% 38%,
+      #c98f5e 38% 46%,
+      #efe2c9 46% 56%,
+      #b06a40 56% 68%,
+      #e3ccaa 68% 78%,
+      #a9825f 78% 88%,
+      #8d6c50 88%
+    );
+}
+
+.orb--saturn {
+  --glow: rgba(230, 205, 150, 0.22);
+  --blur: 0.02;
+  --texture: linear-gradient(
+    176deg,
+    #c9b182 0 12%,
+    #e9d7ab 12% 26%,
+    #d6bb86 26% 40%,
+    #f0e2bd 40% 55%,
+    #cfae78 55% 70%,
+    #e2cc9b 70% 84%,
+    #b79763 84%
+  );
+  --ring: radial-gradient(
+    closest-side,
+    transparent 53%,
+    rgba(226, 205, 160, 0.9) 55%,
+    rgba(196, 170, 124, 0.6) 68%,
+    transparent 70% 73%,
+    rgba(226, 205, 160, 0.85) 75%,
+    rgba(206, 182, 138, 0.55) 93%,
+    transparent 100%
+  );
+}
+
+/* Uranus rolls around the Sun on its side, so its thin rings stand almost upright. */
+.orb--uranus {
+  --glow: rgba(140, 225, 230, 0.25);
+  --blur: 0.03;
+  --texture: linear-gradient(160deg, #dcf7f5, #a2e1e3 50%, #5aabb7);
+  --ring-width: 1.75;
+  --ring-height: 0.42;
+  --ring-tilt: 76deg;
+  --ring: radial-gradient(closest-side, transparent 88%, rgba(200, 240, 245, 0.55) 91%, transparent 96%);
+}
+
+.orb--neptune {
+  --glow: rgba(80, 120, 255, 0.35);
+  --blur: 0.018;
+  --texture:
+    radial-gradient(ellipse 16% 9% at 40% 58%, rgba(15, 30, 110, 0.75), transparent 74%),
+    radial-gradient(ellipse 30% 4% at 60% 36%, rgba(255, 255, 255, 0.5), transparent 76%),
+    linear-gradient(160deg, #719dff, #3158d6 55%, #162c84);
+}
+
+.orb--pluto {
+  --glow: rgba(215, 190, 160, 0.16);
+  --blur: 0.016;
+  --texture:
+    radial-gradient(ellipse 26% 24% at 58% 60%, #f3e8da, transparent 72%),
+    radial-gradient(ellipse 30% 14% at 26% 62%, rgba(80, 45, 30, 0.6), transparent 72%),
+    linear-gradient(150deg, #dcc3a4, #a98463 55%, #5c4433);
+}
+
+/* Orrery: the animated model of the inner solar system on the home page. */
+
+.orrery {
+  position: relative;
+  width: min(100%, 460px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.orrery__sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff8dc, #ffd36a 40%, #ff9d3c 75%, #ff7a1f);
+  box-shadow:
+    0 0 40px 10px rgba(255, 170, 60, 0.55),
+    0 0 120px 40px rgba(255, 140, 40, 0.25);
+  transform: translate(-50%, -50%);
+}
+
+.orrery__orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--orbit);
+  aspect-ratio: 1;
+  /* Percentages in margins resolve against the container's width, which centers the circle. */
+  margin: calc(var(--orbit) / -2) 0 0 calc(var(--orbit) / -2);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 50%;
+  animation: orbit var(--period) linear infinite;
+  animation-delay: var(--offset, 0s);
+}
+
+/* Sits at the top of its orbit, so its lit side (bottom) always faces the Sun as the orbit turns. */
+.orrery__planet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--planet);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 100%, var(--lit), var(--dark) 78%);
+  transform: translate(-50%, -50%);
+}
+
+.orrery__orbit--mercury {
+  --orbit: 26%;
+  --period: 9s;
+  --offset: -2s;
+  --planet: 8px;
+  --lit: #ddd6cc;
+  --dark: #3f3a36;
+}
+
+.orrery__orbit--venus {
+  --orbit: 42%;
+  --period: 16s;
+  --offset: -11s;
+  --planet: 13px;
+  --lit: #ffe6ae;
+  --dark: #7a4d18;
+}
+
+.orrery__orbit--earth {
+  --orbit: 60%;
+  --period: 26s;
+  --offset: -7s;
+  --planet: 14px;
+  --lit: #84c8ff;
+  --dark: #10347e;
+}
+
+.orrery__orbit--mars {
+  --orbit: 78%;
+  --period: 42s;
+  --offset: -30s;
+  --planet: 10px;
+  --lit: #ffa37a;
+  --dark: #5f2011;
+}
+
+.orrery__orbit--jupiter {
+  --orbit: 98%;
+  --period: 80s;
+  --offset: -52s;
+  --planet: 26px;
+  --lit: #f3dcb8;
+  --dark: #5f4128;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}

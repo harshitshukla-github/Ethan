@@ -1,0 +1,22 @@
+{
+  "name": "space-exploration-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Space exploration website: React frontend, Express backend, SQLite-backed accounts",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

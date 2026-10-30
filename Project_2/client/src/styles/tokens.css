@@ -1,0 +1,36 @@
+/* Design tokens: every color, radius and font used across the site. */
+:root {
+  color-scheme: dark;
+
+  --bg: #05060d;
+  --panel: #0c1020;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+
+  --text: #eef1fb;
+  --text-muted: #a9b2cc;
+  --text-dim: #8089a8;
+  --on-accent: #070812;
+
+  --accent: #8b9bff;
+  --cyan: #4fd8ff;
+  --mint: #5ef0d0;
+  --amber: #ffbe5c;
+  --rose: #ff7a8a;
+  --green: #5ee6a0;
+  --gradient: linear-gradient(120deg, #9b8cff 0%, #5fb8ff 50%, #5ef0d0 100%);
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+
+  --font-display: 'Space Grotesk Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --container: 1180px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --nav-height: 68px;
+}
