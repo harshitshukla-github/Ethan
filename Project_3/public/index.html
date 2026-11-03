@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zero-Waste Matchmaker</title>
+  <meta name="description" content="Find compost drop-offs, e-waste recycling, bulk refill stores and recycling centers near you.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Sustainability spots">
+      <header class="sidebar__header">
+        <a class="brand" href="/">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8"/><path d="M12 13c0-5 3.5-8.5 9-9 0 6-3.5 9-9 9z"/><path d="M12 15c0-3.5-2.5-6-7-6.5 0 4.5 2.5 6.5 7 6.5z"/></svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__name">Zero-Waste Matchmaker</span>
+            <span class="brand__tagline">Local spots to reduce, reuse &amp; recycle</span>
+          </span>
+        </a>
+      </header>
+
+      <div class="sidebar__toolbar" id="list-toolbar">
+        <label class="search">
+          <span class="visually-hidden">Search spots</span>
+          <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search-input" class="search__input" type="search" placeholder="Search by name, address or description" autocomplete="off">
+        </label>
+        <div class="chips" id="category-filters" role="group" aria-label="Filter by category"></div>
+      </div>
+
+      <div class="sidebar__body" id="sidebar-body">
+        <section class="view" id="list-view" aria-labelledby="list-heading">
+          <div class="list-header">
+            <h2 class="list-header__title" id="list-heading">Verified spots</h2>
+            <span class="list-header__count" id="list-count" aria-live="polite"></span>
+          </div>
+          <div class="status" id="list-status" hidden></div>
+          <ul class="location-list" id="location-list"></ul>
+        </section>
+
+        <section class="view" id="detail-view" hidden></section>
+
+        <section class="view" id="suggest-view" hidden aria-labelledby="suggest-heading">
+          <button type="button" class="back-link" data-action="back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            Back to list
+          </button>
+          <h2 class="view__title" id="suggest-heading">Suggest a spot</h2>
+
+          <form class="form" id="suggest-form" novalidate>
+            <p class="view__lead">Know a place that helps people waste less? New spots are checked by moderators before they appear on the map.</p>
+
+            <div class="field">
+              <label for="sg-name">Name <span class="required" aria-hidden="true">*</span></label>
+              <input id="sg-name" name="name" required minlength="2" maxlength="150" autocomplete="organization">
+              <p class="field__error" data-error-for="name"></p>
+            </div>
+
+            <div class="field">
+              <label for="sg-category">Category <span class="required" aria-hidden="true">*</span></label>
+              <select id="sg-category" name="category" required>
+                <option value="">Choose a category</option>
+              </select>
+              <p class="field__error" data-error-for="category"></p>
+            </div>
+
+            <div class="field">
+              <label for="sg-address">Address <span class="required" aria-hidden="true">*</span></label>
+              <input id="sg-address" name="address" required minlength="5" maxlength="255" autocomplete="street-address">
+              <p class="field__error" data-error-for="address"></p>
+            </div>
+
+            <fieldset class="field coords">
+              <legend>Position on the map <span class="required" aria-hidden="true">*</span></legend>
+              <p class="field__hint" id="coords-hint">Click the map to drop a pin (drag it to fine-tune), or enter coordinates.</p>
+              <div class="field-row">
+                <div class="field">
+                  <label for="sg-lat">Latitude</label>
+                  <input id="sg-lat" name="latitude" type="number" step="any" min="-90" max="90" required inputmode="decimal" aria-describedby="coords-hint">
+                  <p class="field__error" data-error-for="latitude"></p>
+                </div>
+                <div class="field">
+                  <label for="sg-lng">Longitude</label>
+                  <input id="sg-lng" name="longitude" type="number" step="any" min="-180" max="180" required inputmode="decimal" aria-describedby="coords-hint">
+                  <p class="field__error" data-error-for="longitude"></p>
+                </div>
+              </div>
+              <button type="button" class="btn btn--ghost btn--sm" id="sg-use-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg>
+                Use my current location
+              </button>
+            </fieldset>
+
+            <div class="field">
+              <label for="sg-description">What can people do here?</label>
+              <textarea id="sg-description" name="description" rows="3" maxlength="2000"></textarea>
+              <p class="field__error" data-error-for="description"></p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="sg-hours">Opening hours</label>
+                <input id="sg-hours" name="hours" maxlength="255" placeholder="Mon–Fri 9:00–17:00">
+                <p class="field__error" data-error-for="hours"></p>
+              </div>
+              <div class="field">
+                <label for="sg-phone">Phone</label>
+                <input id="sg-phone" name="phone" type="tel" maxlength="40" autocomplete="tel">
+                <p class="field__error" data-error-for="phone"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="sg-website">Website</label>
+              <input id="sg-website" name="website" type="url" maxlength="255" placeholder="https://" autocomplete="url">
+              <p class="field__error" data-error-for="website"></p>
+            </div>
+
+            <p class="form__error" id="suggest-form-error" role="alert" hidden></p>
+            <button type="submit" class="btn btn--primary btn--block" id="suggest-submit">Submit for review</button>
+          </form>
+
+          <div class="success" id="suggest-success" hidden tabindex="-1">
+            <span class="success__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
+            </span>
+            <h3 class="success__title">Thanks for your suggestion!</h3>
+            <p class="success__text" id="suggest-success-text"></p>
+            <div class="success__actions">
+              <button type="button" class="btn btn--primary" data-action="suggest-another">Suggest another</button>
+              <button type="button" class="btn btn--ghost" data-action="back">Back to list</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="sidebar__footer" id="sidebar-footer">
+        <button type="button" class="btn btn--outline btn--block" id="suggest-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Suggest a new spot
+        </button>
+      </footer>
+    </aside>
+
+    <main class="map-pane">
+      <div class="map" id="map" aria-label="Map of sustainability spots"></div>
+      <div class="map-status" id="map-status" hidden>
+        <div class="map-status__card">
+          <span class="map-status__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+          </span>
+          <h2 class="map-status__title" id="map-status-title"></h2>
+          <p class="map-status__text" id="map-status-text"></p>
+        </div>
+      </div>
+      <button type="button" class="btn btn--primary near-me" id="near-me-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg>
+        <span class="near-me__label">Find Near Me</span>
+      </button>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
