@@ -1,9 +1,10 @@
-/*
-• Creates the database named in DB_NAME (if needed) and applies db/schema.sql.
-• npm run db:setup   schema only (safe to re-run, never drops data)
-• npm run db:seed    schema + demo data from db/seed.sql (skipped if locations already has rows)
-• npm run db:reset   DROPS users, locations and reviews, then recreates and seeds them
-*/
+/**
+ * Creates the database named in DB_NAME (if needed) and applies db/schema.sql.
+ *
+ *   npm run db:setup   schema only (safe to re-run, never drops data)
+ *   npm run db:seed    schema + demo data from db/seed.sql (skipped if locations already has rows)
+ *   npm run db:reset   DROPS users, locations and reviews, then recreates and seeds them
+ */
 import { readFile } from 'node:fs/promises';
 import mysql from 'mysql2/promise';
 import config from '../src/config.js';

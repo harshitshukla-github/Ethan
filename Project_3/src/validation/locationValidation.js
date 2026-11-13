@@ -14,10 +14,10 @@ const TEXT_FIELDS = {
 
 const PHONE_PATTERN = /^[0-9+().\-\s]{5,40}$/;
 
-/*
-• Accepts `?category=compost`, `?category=compost,electronics` or repeated `?category=` params.
-• Returns a de-duplicated array; an empty array means "all categories".
-*/
+/**
+ * Accepts `?category=compost`, `?category=compost,electronics` or repeated `?category=` params.
+ * Returns a de-duplicated array; an empty array means "all categories".
+ */
 export function parseCategoryFilter(raw) {
   if (raw === undefined) return [];
 
@@ -52,11 +52,11 @@ function isHttpUrl(value) {
   }
 }
 
-/*
-• Validates and normalises a POST /api/locations/suggest body.
-• Unknown fields (including any client-sent is_verified) are dropped.
-• Throws HttpError(400) with per-field details when anything is invalid.
-*/
+/**
+ * Validates and normalises a POST /api/locations/suggest body.
+ * Unknown fields (including any client-sent is_verified) are dropped.
+ * Throws HttpError(400) with per-field details when anything is invalid.
+ */
 export function validateSuggestion(body) {
   if (body === null || typeof body !== 'object' || Array.isArray(body)) {
     throw new HttpError(400, 'Request body must be a JSON object.');
